@@ -1,12 +1,11 @@
 export class Sidebar {
   /**
     Компонент сайдбар.
-    @param {string} sidebarSelector - Селектор элемента боковой панели.
     @param {string} openBtnSelector - Селектор кнопки для открытия боковой панели.
     @param {string} align - Позиционирование компонента ('left' или 'right').
     */
-  constructor(sidebarSelector, openBtnSelector, align = "left") {
-    this.sidebar = document.querySelector(sidebarSelector);
+  constructor(openBtnSelector, align = "right") {
+    this.sidebar = document.querySelector('#sidebar');
     this.openBtn = document.querySelector(openBtnSelector);
     this.closeBtn = this.sidebar.querySelector("#close-sidebar");
 
@@ -14,10 +13,7 @@ export class Sidebar {
     this.handleOpenClick = this.handleOpenClick.bind(this);
     this.handleCloseClick = this.handleCloseClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.sidebar.addEventListener(
-      "click",
-      this.closeOnBackdropClick.bind(this)
-    );
+    this.sidebar.addEventListener("click",this.closeOnBackdropClick.bind(this));
 
     // Устанавливаем атрибут data-align
     this.sidebar.setAttribute("data-align", align);
@@ -30,15 +26,13 @@ export class Sidebar {
    */
   open() {
     this.sidebar.showModal();
-    this.initialFormValues = this.getFormValues();
   }
 
   /**
-   * Закрывает сайдбар и очищает поля.
+   * Закрывает сайдбар.
    */
   close() {
     this.sidebar.close();
-    this.clearFields();
   }
 
   /**
@@ -48,62 +42,9 @@ export class Sidebar {
    */
   closeOnBackdropClick(event) {
     const isClickedOnBackdrop = event.target === this.sidebar;
+
     if (isClickedOnBackdrop) {
-      this.isFormChanged() ? this.confirmCloseSidebar() : this.close();
-    }
-  }
-
-  /**
-   * Получает текущие значения полей формы.
-   */
-  getFormValues() {
-    const formElements = this.sidebar.querySelectorAll(
-      "input, select, textarea"
-    );
-    const values = {};
-    formElements.forEach((element) => {
-      values[element.name] = element.value;
-    });
-    return values;
-  }
-
-  /**
-   * Проверяет, были ли изменены данные в форме.
-   */
-  isFormChanged() {
-    const currentFormValues = this.getFormValues();
-    for (const key in currentFormValues) {
-      if (currentFormValues[key] !== this.initialFormValues[key]) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Очищает текстовые поля и области с текстом ошибок.
-   */
-
-  clearFields() {
-    const formElementsToClear = this.sidebar.querySelectorAll(
-      "input, select, textarea"
-    );
-    const errorFieldsToClear = this.sidebar.querySelectorAll(".input-error");
-
-    if (formElementsToClear) {
-      formElementsToClear.forEach((element) => {
-        element.value = ""; // Очищаем значение элемента формы
-
-        if (element.tagName === "SELECT") {
-          element.selectedIndex = -1; // Сбрасываем выбор в селекте
-        }
-      });
-    }
-
-    if (errorFieldsToClear) {
-      errorFieldsToClear.forEach((errorField) => {
-        errorField.textContent = ""; // Очищаем текст ошибок
-      });
+      this.close();
     }
   }
 
@@ -133,27 +74,10 @@ export class Sidebar {
   }
 
   /**
-   * Отображает подтверждение закрытия сайдбара.
-   */
-  confirmCloseSidebar() {
-    const confirmationMessage =
-      "Данные были изменены. Действительно хотите закрыть меню?";
-    const isConfirmed = confirm(confirmationMessage);
-    if (isConfirmed) {
-      this.close();
-    }
-  }
-
-  /**
    * Обработчик события клика на кнопке закрытия.
    */
   handleCloseClick() {
-    this.isFormChanged() && this.confirmCloseSidebar();
-    if (this.isFormChanged()) {
-      this.confirmCloseSidebar();
-    } else {
-      this.close();
-    }
+    this.close();
   }
 
   /**
@@ -162,11 +86,7 @@ export class Sidebar {
    */
   handleKeyDown(event) {
     if (event.key === "Escape") {
-      if (this.isFormChanged()) {
-        this.confirmCloseSidebar();
-      } else {
-        this.close();
-      }
+      this.handleCloseClick();
     }
   }
 }

@@ -45,6 +45,7 @@
 }
 
 .card {
+  cursor: pointer;
   position: relative;
   width: 282px;
   background: var(--dark-blue);
