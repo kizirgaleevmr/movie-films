@@ -1,9 +1,8 @@
 export class Sidebar {
   /**
-    Компонент сайдбар.
-    @param {string} openBtnSelector - Селектор кнопки для открытия боковой панели.
-    @param {string} align - Позиционирование компонента ('left' или 'right').
-    */
+   * @param {string} openBtnSelector - Селектор кнопки для открытия боковой панели.
+   * @param {string} align - Позиционирование компонента ('left' или 'right').
+   */
   constructor(openBtnSelector, align = "right") {
     this.sidebar = document.querySelector('#sidebar');
     this.openBtn = document.querySelector(openBtnSelector);

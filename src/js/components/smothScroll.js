@@ -1,17 +1,10 @@
-/**
- * Осуществляет плавную прокрутку в начало страницы.
- */
+const CURRENT_SCROLL = document?.documentElement?.scrollTop || document?.body?.scrollTop;
+
+// Плавная прокрутка в начало страницы.
 export const smoothscroll = () => {
-  // Получаем текущую позицию прокрутки страницы
-  let currentScroll =
-    document.documentElement.scrollTop || document.body.scrollTop;
-
-  // Если текущая позиция прокрутки больше 0, продолжаем плавную прокрутку
-  if (currentScroll > 0) {
-    // Вызываем requestAnimationFrame для создания анимации
+  if (CURRENT_SCROLL > 0) {
     window.requestAnimationFrame(smoothscroll);
-
     // Прокручиваем страницу к началу
-    window.scrollTo(0, currentScroll - currentScroll / 5);
+    window.scrollTo(0, CURRENT_SCROLL - CURRENT_SCROLL / 5);
   }
 };

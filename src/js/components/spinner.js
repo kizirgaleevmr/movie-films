@@ -1,13 +1,7 @@
+const SPINNER = document?.querySelector(".spinner");
+
 /**
  * Компонент спиннер.
  * @param {boolean} isVisible - Показывать/скрывать компонент.
  */
-export const toggleSpinner = (isVisible) => {
-  const spinner = document.querySelector(".spinner");
-
-  if (spinner && isVisible) {
-    spinner.classList.add("show");
-  } else if (spinner) {
-    spinner.classList.remove("show");
-  }
-};
+export const spinner = isVisible => SPINNER?.classList?.toggle("show", isVisible);

@@ -1,25 +1,22 @@
-/**
- * Компонент для переключения вкладок (табы).
- */
-export const tabsComponent = () => {
-  // Получаем доступ к контейнеру вкладок
-  const tabs = document.querySelector(".tabs");
+// Получаем доступ к контейнеру вкладок
+const TABS_PARENT = document?.querySelector(".tabs");
+// Получаем доступ ко всем кнопкам вкладок и к содержимому вкладок
+const TABS_BTN = document?.querySelectorAll(".tabs__btn");
+const TABS_CONTENT = document?.querySelectorAll(".tabs__content");
 
-  // Получаем доступ ко всем кнопкам вкладок и к содержимому вкладок
-  const tabsBtn = document.querySelectorAll(".tabs__btn");
-  const tabsContent = document.querySelectorAll(".tabs__content");
-
-  if (tabs) {
+// Компонент для переключения вкладок.
+export const tabs = () => {
+  if (TABS_PARENT) {
     // Добавляем обработчик клика на контейнер вкладок
-    tabs.addEventListener("click", (e) => {
+    TABS_PARENT.addEventListener("click", (e) => {
       // Проверяем, что клик произошел на кнопке вкладки
-      if (e.target.classList.contains("tabs__btn")) {
+      if (e?.target?.classList?.contains("tabs__btn")) {
         // Получаем значение атрибута data-tabs-path выбранной кнопки вкладки
-        const tabsPath = e.target.dataset.tabsPath;
+        const tabsPath = e?.target?.dataset?.tabsPath;
         // Удаляем класс "tabs__btn--active" у всех кнопок вкладок
-        tabsBtn.forEach((el) => el.classList.remove("tabs__btn--active"));
+        TABS_BTN?.forEach((el) => el?.classList?.remove("tabs__btn--active"));
         // Добавляем класс "tabs__btn--active" к выбранной кнопке вкладки
-        e.target.classList.add("tabs__btn--active");
+        e?.target?.classList?.add("tabs__btn--active");
         // Вызываем функцию для обработки вкладок с переданным значением data-tabs-path
         tabsHandler(tabsPath);
       }
@@ -29,11 +26,11 @@ export const tabsComponent = () => {
   // Функция для обработки вкладок
   const tabsHandler = (path) => {
     // Скрываем все содержимое вкладок
-    tabsContent.forEach((el) => el.classList.remove("tabs__content--active"));
+    TABS_CONTENT?.forEach((el) => el?.classList?.remove("tabs__content--active"));
 
     // Показываем содержимое вкладки с переданным значением data-tabs-target
     document
       .querySelector(`[data-tabs-target="${path}"]`)
-      .classList.add("tabs__content--active");
+      .classList?.add("tabs__content--active");
   };
 };
