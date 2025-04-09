@@ -1,6 +1,5 @@
 /**
- * Глобальный объект для хранения состояния приложения.
- * @type {Object}
+ * Глобальные данные приложения.
  * @property {string} currentPage - Текущий путь страницы.
  * @property {Object} api - Настройки API.
  * @property {string} api.apiKey - Ключ API для доступа к The Movie Database.
@@ -13,7 +12,7 @@
  * @property {number} search.totalResults - Общее количество результатов поиска.
  * @property {number} search.maxCountResults - Максимальное количество результатов на странице.
  */
-export const global = {
+export const ENV = {
   currentPage: window.location.pathname,
   api: {
     // Ваш API ключ здесь
