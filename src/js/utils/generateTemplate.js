@@ -5,12 +5,13 @@ import { attachListeners } from "./helpers";
  * Вспомогательная функция для создания шаблона карточки
  * @param {Object} content - Данные о фильме/сериале
  * @param {boolean} useSlider - Флаг использования слайдера
+ * @param {string} type - Тип контента (movie/tv)
  */
-const createCardTemplate = (content, useSlider = false) => {
+const createCardTemplate = (content, useSlider = false, type = "movie") => {
   return `
     <div class="${useSlider ? "swiper-slide card" : "card"}" data-id="${
     content?.id
-  }">
+  }" data-type="${type}">
       <img src="https://image.tmdb.org/t/p/${useSlider ? "w500" : "w300"}${
     content?.poster_path
   }" alt="${content?.title}" />
@@ -36,25 +37,26 @@ const createCardTemplate = (content, useSlider = false) => {
  * @param {Object} options - Объект с настройками:
  * @param {string} options.containerSelector - Селектор родитель, в который будут добавлены элементы.
  * @param {boolean} options.useSlider - Использовать/неиспользовать слайдер.
+ * @param {string} options.type - Тип контента (movie/tv).
  */
 export const generateTemplate = (data, options) => {
-  const { containerSelector, useSlider } = options;
+  const { containerSelector, useSlider, type = "movie" } = options;
 
-  const parentElement = document.querySelector(containerSelector);
+  const parentElement = document?.querySelector(containerSelector);
 
   let template = "";
 
   data.forEach((content) => {
-    template += createCardTemplate(content, useSlider);
+    template += createCardTemplate(content, useSlider, type);
   });
+
+  parentElement.insertAdjacentHTML("beforeend", template);
 
   // Инициализация слайдера, если передан параметр
   useSlider && initSwiper();
 
   // Прикрепить обработчик клика на карточки после их вставки в DOM
   attachListeners();
-
-  parentElement.insertAdjacentHTML("beforeend", template);
 };
 
 /**
@@ -64,13 +66,12 @@ export const generateTemplate = (data, options) => {
  * @param {string} options.containerSelector - Селектор родитель, в который будут добавлены элементы.
  */
 export const generateTemplateForDetails = (data, options) => {
-  console.log("data", data);
   const { original_title, overview, poster_path, release_date } = data;
 
   const { containerSelector } = options;
 
   // Получение родительского узла сайдбара
-  const parentElement = document.querySelector(containerSelector);
+  const parentElement = document?.querySelector(containerSelector);
 
   // Очистка перед новой отрисовкой
   parentElement.innerHTML = "";
